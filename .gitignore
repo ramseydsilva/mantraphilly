@@ -8,6 +8,4 @@ nn*
 output*
 *egg-info*
 /data
-/logs
-/config
 *.pyc
