@@ -8,8 +8,7 @@
 
 ```
 git clone git@github.com:ramseydsilva/mantraphilly.git mantra
-virtualenv -p /usr/bin/python3.5 mantr
-mkdir config
+virtualenv -p /usr/bin/python3.5 mantra
 echo "ALLOWED_HOSTS=mantra.local" > config/site.conf
 pip install -r requirements.txt
 sudo src/server/manage.py start
