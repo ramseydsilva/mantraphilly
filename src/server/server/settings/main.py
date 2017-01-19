@@ -137,7 +137,12 @@ NGINX_PATH = env("NGINX_PATH", default="/etc/nginx/sites-enabled/%s" %(PROJECT_N
 UWSGI_PATH = env("UWSGI_PATH", default="/etc/uwsgi/sites-enabled/%s.ini" %(PROJECT_NAME))
 WEBSERVER = 'nginx'
 RUN_AS_USER = 'ramsey'
-SERVER_NAME = 'mantra.local'
 UWSGI_SOCK = '/tmp/%s.sock' %(PROJECT_NAME)
 UWSGI_BIN = env("UWSGI_BIN", default=os.path.join(PROJECT_ROOT, 'bin/uwsgi'))
-ALLOWED_HOSTS = env('ALLOWED_HOSTS', default=['127.0.0.1', 'localhost'], cast=[str])
+ALLOWED_HOSTS = env('ALLOWED_HOSTS', default=[], cast=[str])
+if len(ALLOWED_HOSTS):
+    SERVER_NAME = ALLOWED_HOSTS[0]
+else:
+    ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+    SERVER_NAME = '%s.local' %(PROJECT_NAME)
+
