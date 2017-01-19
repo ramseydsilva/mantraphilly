@@ -1,0 +1,9 @@
+{% if settings.PROJECT_NAME in settings.PROCESSES %}
+[program:{{ settings.PROJECT_NAME }}]
+command = {{ settings.UWSGI_BIN }} {{ settings.PROJECT_ROOT }}/config/uwsgi.ini
+stopsignal = QUIT
+autostart = true
+autorestart = true
+redirect_stderr = true
+user={{ settings.RUN_AS_USER }}
+{% endif %}

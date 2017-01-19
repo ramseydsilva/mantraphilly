@@ -1,0 +1,32 @@
+server {
+    listen                  80;
+    server_name             {{ settings.SERVER_NAME }};
+    charset                 utf-8;
+    client_max_body_size    75M;
+    gzip                    on;
+
+    location {{ settings.STATIC_URL_ }} {
+        autoindex           on;
+        alias               {{ settings.PROJECT_ROOT }}/src/web/web;
+    }
+
+    {% if not settings.DEBUG %}
+    location {{ settings.STATIC_URL_ }}/app {
+        deny all;
+    }
+    {% endif %}
+
+    location {{ settings.DOCS_URL }} {
+        autoindex           on;
+        alias               {{ settings.DOCS_ROOT }};
+    }
+
+    location {{ settings.BASE_URL }} {
+        {% if settings.HTTP_SOCK %}
+        proxy_pass          http://{{ settings.HTTP_SOCK }};
+        {% else %}
+        uwsgi_pass          unix://{{ settings.UWSGI_SOCK }};
+        include             uwsgi_params;
+        {% endif %}
+    }
+}
